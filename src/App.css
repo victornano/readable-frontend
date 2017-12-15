@@ -1,0 +1,24 @@
+.App {
+  padding: 25px;
+}
+.icon-btn {
+    border:none;
+    background: none;
+    color: #666;
+    padding: 4px;
+}
+a {
+    color: darkblue;
+    text-decoration: none;
+}
+a span,
+button span{
+    vertical-align: middle;
+}
+.delete-btn{
+    color: darkblue;
+    padding: 0;
+}
+.delete-btn svg{
+    color: red;
+}
