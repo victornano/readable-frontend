@@ -28,7 +28,7 @@ These are my main concerns about this project, please let me know if my reasonin
 
 
 
-MIT License
+
 
 Copyright (c) 2017 Victor Montero Bonilla
 
