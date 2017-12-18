@@ -22,3 +22,16 @@ button span{
 .delete-btn svg{
     color: red;
 }
+.post-listing-details{
+    padding-left: 24px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.not-found h2{
+    font-size: 90px;
+    margin-top: 200px;
+    margin-bottom: 24px;
+}
+.error{
+    color: red;
+}

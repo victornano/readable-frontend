@@ -7,6 +7,7 @@ import reducer from './reducers'
 import { Provider } from 'react-redux'
 import { fetchCategories} from "./actions/categories"
 import { fetchPosts} from "./actions/posts"
+import { fetchComments} from "./actions/comments"
 import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
@@ -22,6 +23,7 @@ const store = createStore(
 )
 store.dispatch(fetchCategories())
 store.dispatch(fetchPosts())
+store.dispatch(fetchComments())
 
 ReactDOM.render(<BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>, document.getElementById('root'))
 registerServiceWorker()

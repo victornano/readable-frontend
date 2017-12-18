@@ -1,10 +1,5 @@
 import * as ReadableApi from '../ReadableApi'
-
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const RECEIVE_VOTE_POST = 'RECEIVE_VOTE_POST'
-export const RECEIVE_EDIT_POST = 'RECEIVE_EDIT_POST'
-export const RECEIVE_ADD_POST = 'RECEIVE_ADD_POST'
-export const RECEIVE_DELETE_POST = 'RECEIVE_DELETE_POST'
+import {RECEIVE_POSTS, RECEIVE_VOTE_POST, RECEIVE_ADD_POST, RECEIVE_EDIT_POST, RECEIVE_DELETE_POST} from '../actions/types'
 
 // Get Posts
 export const receivePosts = posts => ({
