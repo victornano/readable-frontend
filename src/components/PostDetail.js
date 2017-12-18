@@ -16,29 +16,51 @@ import DownVoteIcon from 'react-icons/lib/fa/thumbs-down'
 class PostDetail extends Component {
     state = {
         commentText: '',
-        editComment: null
+        authorText: '',
+        editComment: null,
+        formValid: true
     }
     handleCommentChange = (e) => {
         this.setState({commentText: e.target.value})
     }
+    handleAuthorChange = (e) => {
+        this.setState({authorText: e.target.value})
+    }
     onSubmitComment = (e) => {
         e.preventDefault()
+        let valid = true
         if (this.state.editComment){
-            this.props.sendEditComment(this.state.editComment, Date.now(), this.state.commentText)
+            if (this.state.commentText) {
+                this.props.sendEditComment(this.state.editComment, Date.now(), this.state.commentText)
+            }
+            else {
+                this.setState({formValid: false})
+                valid = false
+            }
         }
         else {
-            this.props.sendAddComment({
-                id: Math.random().toString(36).substr(2, 9),
-                parentId: this.props.match.params.id,
-                timestamp: Date.now(),
-                body: this.state.commentText,
-                author: 'Anonymous'
+            if (this.state.commentText && this.state.authorText) {
+                this.props.sendAddComment({
+                        id: Math.random().toString(36).substr(2, 9),
+                        parentId: this.props.match.params.id,
+                        timestamp: Date.now(),
+                        body: this.state.commentText,
+                        author: this.state.authorText
+                    })
+            }
+            else {
+                this.setState({formValid: false})
+                valid = false
+            }
+        }
+        if (valid) {
+            this.setState({
+                authorText : '',
+                commentText : '',
+                editComment : null,
+                formValid: true
             })
         }
-        this.setState({
-            commentText : '',
-            editComment : null
-        });
     }
     onEditComment = (comment) => {
         this.commentInput.focus()
@@ -47,7 +69,7 @@ class PostDetail extends Component {
     render() {
         const postId = this.props.match.params.id
         const currentPost = this.props.posts.find(post => post.id === postId)
-        const {comments} = this.props
+        const comments = this.props.comments.filter(comment => comment.parentId === postId)
         const {editComment} = this.state
         return (
             <div>
@@ -63,13 +85,14 @@ class PostDetail extends Component {
                                 this.props.history.push('/')
                             }}><span>Delete Post</span> <DeleteIcon size="20" /></button>
                         </p>
-                        <h2>Comments</h2>
+                        <h2>Comments ({comments.length})</h2>
                         {comments.length > 0 && (
                             <ul>
                                 {comments.map(comment => (
                                     <li key={comment.id}>{comment.body}&nbsp;|&nbsp;
                                         <Moment format="MMM Do YY" unix>{comment.timestamp / 1000}</Moment>&nbsp;|&nbsp;
                                         <strong>Score:</strong> {comment.voteScore}&nbsp;
+                                        <strong>Author:</strong> {comment.author}&nbsp;
                                         <button className="icon-btn" onClick={() => this.onEditComment(comment)}><EditIcon size="16" /></button>
                                         <button className="icon-btn" onClick={() => this.props.sendDeleteComment(comment.id)}><DeleteIcon size="16" /></button>
                                         <button className="icon-btn" onClick={() => this.props.sendVoteComment(comment, true)}><UpVoteIcon size={16}/></button>
@@ -81,7 +104,15 @@ class PostDetail extends Component {
                         <form className="pure-form pure-form-stacked" onSubmit={this.onSubmitComment}>
                             <fieldset>
                                 <legend>{editComment ? 'Edit' : 'Add'} comment</legend>
+                                {!editComment && (
+                                    <div>
+                                        <label htmlFor="author">Author:</label>
+                                        <input id="author" type="text" onChange={this.handleAuthorChange} value={this.state.authorText} />
+                                    </div>
+                                )}
+                                <label htmlFor="author">Comment:</label>
                                 <textarea ref={(input) => { this.commentInput = input }} rows="5" cols="50" onChange={this.handleCommentChange} value={this.state.commentText} ></textarea>
+                                {!this.state.formValid && (<label className="error">All fields are required.</label>)}
                                 <button type="submit" className="pure-button pure-button-primary">Submit Comment</button>
                             </fieldset>
                         </form>

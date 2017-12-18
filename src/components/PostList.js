@@ -37,7 +37,9 @@ class PostList extends Component {
                             <button className="icon-btn" onClick={() => sendPostVote(post, true)}><UpVoteIcon size={16}/></button>
                             <button className="icon-btn" onClick={() => sendPostVote(post)} ><DownVoteIcon size={16}/></button>
                             <div className="post-listing-details">
-                                <Moment format="MMM Do YY" unix>{post.timestamp / 1000}</Moment>&nbsp;|&nbsp; <strong>Score:</strong> {post.voteScore}&nbsp;|&nbsp;
+                                <Moment format="MMM Do YY" unix>{post.timestamp / 1000}</Moment>&nbsp;|&nbsp;
+                                <strong>Author:</strong> {post.author}&nbsp;|&nbsp;
+                                <strong>Score:</strong> {post.voteScore}&nbsp;|&nbsp;
                                 {this.props.comments && (
                                     <span>
                                         <strong>Comments:</strong> {this.props.comments.filter(c => c.parentId === post.id).length}
