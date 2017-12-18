@@ -24,6 +24,10 @@ These are my main concerns about this project, please let me know if my reasonin
 - Similar to the previous concern, I didn't include the number of comments in the Post Listings. The ideal scenario would be for each post to bring that data, or having a Comments store.
 
 
+
+
+
+
 MIT License
 
 Copyright (c) 2017 Victor Montero Bonilla
