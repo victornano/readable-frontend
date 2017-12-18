@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 
-import { deletePost } from '../actions/posts'
+import { deletePost, votePost } from '../actions/posts'
 import { addComment, editComment, deleteComment, voteComment } from '../actions/comments'
 import Menu from './Menu'
 import NotFound from './NotFound'
@@ -77,7 +77,11 @@ class PostDetail extends Component {
                 {currentPost ? (
                     <div>
                         <h1>{currentPost.title}</h1>
-                        <p><strong>Author:</strong> {currentPost.author} | <Moment format="MMM Do YY" unix>{currentPost.timestamp / 1000}</Moment> | <strong>Score:</strong> {currentPost.voteScore}</p>
+                        <p>
+                            <strong>Author:</strong> {currentPost.author} | <Moment format="MMM Do YY" unix>{currentPost.timestamp / 1000}</Moment> | <strong>Score:</strong> {currentPost.voteScore}&nbsp;
+                            <button className="icon-btn" onClick={() => this.props.sendPostVote(currentPost, true)}><UpVoteIcon size={16}/></button>
+                            <button className="icon-btn" onClick={() => this.props.sendPostVote(currentPost)} ><DownVoteIcon size={16}/></button>
+                        </p>
                         <p>{currentPost.body}</p>
                         <p>
                             <Link to={`/posts/edit/${postId}`}><span>Edit Post</span> <EditIcon size="20" /></Link><br/><button className="icon-btn delete-btn" onClick={() => {
@@ -126,6 +130,7 @@ class PostDetail extends Component {
 function mapDispatchToProps (dispatch) {
     return {
         sendDeletePost: (id) => dispatch(deletePost(id)),
+        sendPostVote: (post, isUpVote) => dispatch(votePost(post, isUpVote)),
         sendAddComment: (comment) => dispatch(addComment(comment)),
         sendEditComment: (id, timestamp, body) => dispatch(editComment(id, timestamp, body)),
         sendDeleteComment: (id, body) => dispatch(deleteComment(id)),
